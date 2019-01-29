@@ -1,0 +1,106 @@
+{
+    "Personal Information":[
+        {
+            "Name" : [
+                {
+                    "First Name":"Lokesh",
+                    "Last Name":"Buddappagari"
+                }
+            ],
+            "Address": [
+                {
+                    "House No": 4-25,
+                    "Village":"Kadathatlapalli",
+                    "Post":"Kadapanatham",
+                    "Mandal":"Baireddipalli",
+                    "District":"Chittoor",
+                    "State":"Andhra Pradesh",
+                    "Country":"India",
+                    "Pincode":517415
+                  }
+            ],
+            "Contact Number":[7036071058,8247732570],
+            "Email-ID":"bvclokesh@gmail.com",
+            "Sex":"Male",
+            "Date of Birth":10-08-1995, 
+        }
+
+    ],
+    "Education Details":[
+        {
+            "Under Graduation":[
+                {
+                    "Course":"B.Tech",
+                    "College Name":"MTIET",
+                    "Stream":"ECE",
+                    "Percentage":75.5,
+                    "Year of Passed":2016
+
+                }
+            ],
+            "Pre University Course":[
+                {
+                    "Course":"M.P.C",
+                    "College Name":"MTC",
+                    "Percentage":87.3,
+                    "Year of Passed":2012
+                }
+            ],
+            "Schooling":[
+                {
+                    "Course":"SSC",
+                    "School Name":"ZPHS-Kadapanatham",
+                    "Percentage":89.3,
+                    "Year of Passed":2010
+
+                }
+
+            ]
+        }
+    ],
+    
+    "Personal Skills":[
+        {
+            "Languages Skills":["Telugu","English"],
+            "Communication Skills":["Team Work","Mediating Skills","Intercultural Skills","Excellent verbal and written Skills","Organisational or Managerial Skills"],
+            "Computer Skills":[
+                {
+                    "Packages":"MS Offices",
+                    "Operating Systems":["Windows XP/7/8/10","Linux","Fedora","Ubuntu"],
+                    "Programming Languages":["C","Python Basics","Bash Shell Scripting Basics"]
+                }
+            ]            
+        }
+
+    ],
+    "Additional Information":[
+        {
+            "Project Details":[
+                {
+                    "Main Project":[
+                        {
+                            "Title":"Performance Analysis of MIMO and OFDM Systems",
+                            "Duration": "6 months",
+                            "Team Strenth":2,
+                            "Role":"Team Lead",
+                            "Description":"The main aim of this project was to compare the performance of MIMO & OFDM systems by using the BER curves of MIMO & OFDM Systems using MatLab"
+                        }
+                    ],
+                    "Mini Project":[
+                        {
+                            "Title":"A Study on Battery Testing Using Load Banks",
+                            "Duration": "3 months",
+                            "Team Strenth":2,
+                            "Role":"Team Lead",
+                            "Description":"The main aim of this project was to reduce risk of testing batteries, easyidentification of problems in battery performance"
+                        }
+
+                    ]
+                }
+            ],
+            "References":"https://europass.cedefop.europa.eu/en/documents/curriculum-vitae"
+        }
+    ]
+    
+
+}

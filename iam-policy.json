@@ -1,0 +1,36 @@
+{
+
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description" : "IAM Policy",
+    "Resources" :{
+
+
+         
+         "mygroup": {
+            "Type": "AWS::IAM::Group",
+            "Properties": {
+               "Path": "/",
+               "Policies": [ { "Ref": "mypolicy" }]
+            }
+         },
+         
+
+
+        "mypolicy": {
+           "Type": "AWS::IAM::Policy",
+           "Properties": {
+                "PolicyName": "root",
+                "PolicyDocument": {
+                   "Version" : "2012-10-17",
+                   "Statement": [ {
+                      "Effect": "Allow",
+                      "Action": "*",
+                      "Resource": "*"
+                   } ]
+                }
+                } 
+            }
+        }
+        
+
+    }

@@ -1,0 +1,12 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Resources" : {
+        "mystack" : {
+	       "Type" : "AWS::CloudFormation::Stack",
+	       "Properties" : {
+	          "TemplateURL" : "https://s3.us-east-2.amazonaws.com/cf-templates-qr6fdprvlexo-us-east-2/2018324Tj6-s3.json",
+              "TimeoutInMinutes" : "15"
+	       }
+        }
+    }
+}

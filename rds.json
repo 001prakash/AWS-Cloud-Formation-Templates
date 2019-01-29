@@ -1,0 +1,70 @@
+{
+
+
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description":"RDS",
+    "Parameters":{
+
+        
+        "as": {
+            "Description": "allocated storage in GB",
+            "Type": "String",
+            "Default": "20"
+        },   
+        "mydbinstanceclass": {
+            "Description": "db instance class",
+            "Type": "String",
+            "Default": "db.t2.micro"
+        },
+        
+        "mydbname": {
+            "Description": "db name",
+            "MinLength":"4",
+            "MaxLength":"10",
+            "Type": "String"
+            
+        },
+        "mydbusername":{
+            "Description": "db username",
+            "MinLength":"4",
+            "MaxLength":"8",
+            "Type": "String"
+        },
+        "mydbpassword":{
+
+            "Description": "db username",
+            "MinLength":"8",
+            "MaxLength":"16",
+            "Type": "String"
+
+        },
+       "vpcid": {
+           "Description": "vpc id ",
+           "Type": "AWS::EC2::VPC::Id"
+           
+       }     
+    },
+
+
+    "Resources":{
+
+        
+        "myrds": {
+          "Type": "AWS::RDS::DBInstance",
+          "Properties": {
+            "AllocatedStorage": { "Ref": "as" },
+            "DBInstanceClass": { "Ref": "mydbinstanceclass" },
+            "DBInstanceIdentifier": "bhoj-raj-rds",
+            "DBName": { "Ref": "mydbname" },
+            "Engine": "MySQL",
+            "EngineVersion": "5.6.40",    
+            "MasterUsername": { "Ref": "mydbusername" },
+            "MasterUserPassword": { "Ref": "mydbpassword" },
+             "Tags" :[{"Key" :"Name","Value" :"My SQL Database" }]
+              
+          }
+        }
+   
+        
+    }
+}

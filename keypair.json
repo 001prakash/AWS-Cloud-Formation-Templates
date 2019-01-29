@@ -1,0 +1,210 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description":"VPC network",
+    "Parameters":{
+
+        "mykeypair": {
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        
+        "myvpccidr": {
+            "Description": "cidr block",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+
+        
+        "sub1cidr": {
+            "Description": "subnet 1 cidr",
+            "Type": "String",
+            "Default": "192.168.0.0/24"
+        },
+
+        "sub2cidr": {
+            "Description": "subnet 2 cidr",
+            "Type": "String",
+            "Default": "192.168.1.0/24"
+        },
+
+        
+
+        
+        
+        
+        "sub1az": {
+            "Description": "subnet 1 az",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+
+        "sub2az": {
+            "Description": "subnet 2 az",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }    
+
+       
+        
+        
+
+        
+        
+        
+
+    },
+
+    "Resources":{
+        
+        "myvpc": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": { "Ref": "myvpccidr" }
+            
+          }
+        },
+        
+        "sub1": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": { "Ref": "sub1az" },
+            "VpcId": { "Ref": "myvpc" },
+            "CidrBlock": { "Ref": "sub1cidr" }
+            
+            }
+        },
+        "sub2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": { "Ref": "sub2az" },
+              "VpcId": { "Ref": "myvpc" },
+              "CidrBlock": { "Ref": "sub2cidr" }
+              
+              }
+        },
+          
+
+          
+          "mysecuritygroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "to allow ssh and http",
+                "GroupName" : "Allow SSH and HTTP",
+                "VpcId" : { "Ref": "myvpc" },
+                "SecurityGroupIngress" : [ 
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort" : 22,
+                        "ToPort" : 22,
+                        "CidrIp" : "0.0.0.0/0"
+                     },
+                     {
+                        "IpProtocol" : "tcp",
+                        "FromPort" : 80,
+                        "ToPort" : 80,
+                        "CidrIp" : "0.0.0.0/0"
+                     }
+                ]
+              
+              
+              
+            }
+          },
+
+          
+          "myec2": {
+              "Type": "AWS::EC2::Instance",
+              "Properties": {
+                  "KeyName": { "Ref": "mykeypair" },
+                  "ImageId": "ami-0b59bfac6be064b78",
+                  "InstanceType": "t2.micro",
+                  "Monitoring": "true",
+                  "SecurityGroupIds" : [{ "Ref": "mysecuritygroup" }],
+                  "SubnetId":{ "Ref": "sub1" }
+                  
+                }
+            },
+
+          
+          "myigw": {
+            "Type": "AWS::EC2::InternetGateway"
+            
+          },
+          "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+              "VpcId": 
+              { "Ref": "myvpc" },
+              
+              "InternetGatewayId": { "Ref": "myigw" }
+            }
+          },
+
+          
+          "myroute": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+              "VpcId": 
+              { "Ref": "myvpc" }
+              
+              
+            }
+          },
+
+          
+          "igw": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+              "RouteTableId": 
+              { "Ref": "myroute" }
+              ,
+              "DestinationCidrBlock": "0.0.0.0/0",
+              "GatewayId": 
+              { "Ref": "myigw" }
+              
+            }
+          },
+
+          
+          "routeTableAssoc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+              "SubnetId": 
+              { "Ref": "sub2" },
+              
+              "RouteTableId": 
+              { "Ref": "myroute" }
+              
+            }
+          }
+          
+          
+          
+          
+          
+        
+        
+    },
+
+    "Outputs":{
+
+        
+        "Vpcid" : {
+          "Value" : 
+          { "Ref": "myvpc" }
+          
+        },
+
+        
+        "securitygroup" : {
+          "Value" : 
+          { "Ref": "mysecuritygroup" }
+          
+        },
+
+        
+        "ipaddress" : {
+          "Value" : 
+          {"Fn::Join" : ["//",[ "http:", { "Fn::GetAtt" : [ "myec2", "PrivateIp" ]}] ]}
+    
+          }
+    
+        }
+}

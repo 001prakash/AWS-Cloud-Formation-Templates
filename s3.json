@@ -5,7 +5,7 @@
         "mybucket": {
             "Description": "give any name to the bucket",
             "Type": "String",
-            "Default": "www.lokeshcraig.com",
+            "Default": "lokeshcraig",
             "MinLength": "8",
             "MaxLength": "16"
         }

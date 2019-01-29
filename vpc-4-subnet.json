@@ -1,0 +1,48 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description":"VPC network",
+    "Resources":{
+        
+        "myvpc": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": "192.168.0.0/16"
+          }
+        },
+        
+        "sub1": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": "us-east-2a",
+            "VpcId": { "Ref": "myvpc" },
+            "CidrBlock": "192.168.0.0/24"
+            }
+        },
+        "sub2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2b",
+              "VpcId": { "Ref": "myvpc" },
+              "CidrBlock": "192.168.1.0/24"
+              }
+        },
+          "sub3": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2c",
+              "VpcId": { "Ref": "myvpc" },
+              "CidrBlock": "192.168.2.0/24"
+              }
+          },
+          "sub4": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2a",
+              "VpcId": { "Ref": "myvpc" },
+              "CidrBlock": "192.168.3.0/24"
+              }
+          }
+        
+        
+    }
+}
