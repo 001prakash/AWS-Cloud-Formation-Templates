@@ -1,0 +1,66 @@
+{
+   
+   "AWSTemplateFormatVersion": "2010-09-09",
+   "Resources":{
+
+      
+      "s3Bucket": {
+         "Type": "AWS::S3::Bucket",
+         "Properties": {
+            "AccessControl": "PublicReadWrite",
+            "BucketName": "lokeshcraig",
+            
+            "IamInstanceProfile": {
+                  "Roles": [ 
+                  { "Ref": "InstanceProfile" }
+                   ]
+               }
+            }
+            
+         
+         }
+      },
+
+
+      
+      "Role": {
+         "Type": "AWS::IAM::Role",
+         "Properties": {
+            "RolePolicyDocument": { 
+               "Statement": [ {
+               "Effect": "Allow",
+               "Principal": {
+                  "Service": [ "s3.amazonaws.com" ]
+               },
+               "Action": [ "sts:AssumeRole" ]
+            } ] },
+            "Path": "/",
+            "RolePolicies": {
+               
+                  "PolicyDocument": {
+                     "Statement": [ {
+                        "Effect": "Allow",
+                        "Action": "*",
+                        "Resource": "*"
+                     } ]
+                  }
+                  
+               }
+            }
+               
+         },
+      
+      
+
+      
+      "InstanceProfile": {
+         "Type": "AWS::IAM::InstanceProfile",
+         "Properties": {
+            "Path": "/",
+            "Roles": [ 
+            { "Ref": "Role" }
+             ]
+         }
+      }
+      
+}

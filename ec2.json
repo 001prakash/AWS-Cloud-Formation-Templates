@@ -1,0 +1,52 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+   "Description" : "EC2 Instance",
+   "Resources" :{
+
+
+
+    "mysecuritygroup" : {
+        "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" : {
+            "GroupDescription" : "to allow ssh and http",
+            "GroupName" : "Allow SSH and HTTP",
+            "SecurityGroupIngress" : [ 
+                {
+                    "IpProtocol" : "tcp",
+                    "FromPort" : 22,
+                    "ToPort" : 22,
+                    "CidrIp" : "0.0.0.0/0"
+                 },
+                 {
+                    "IpProtocol" : "tcp",
+                    "FromPort" : 80,
+                    "ToPort" : 80,
+                    "CidrIp" : "0.0.0.0/0"
+                 }
+            ]
+          
+          
+          
+        }
+      },
+
+        
+        "myec2instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": "cloud",
+                "ImageId": "ami-0b59bfac6be064b78",
+                "InstanceType": "t2.micro",
+                "AvailabilityZone" : "us-east-2a",
+                "Monitoring": "true",
+                "SecurityGroupIds" : [{ "Ref": "mysecuritygroup" }]
+                
+                
+            }
+        }
+
+   }
+
+
+
+}

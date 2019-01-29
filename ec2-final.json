@@ -1,0 +1,124 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+   "Description" : "EC2 Instance",
+   "Parameters":{
+
+    "myinstancetype" : {
+        "Description" : "EC2 instance type",
+        "Type" : "String",
+        "Default" : "t2.micro",
+        "AllowedValues" : [ "t1.micro","t2.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","m3.xlarge","m3.2xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"]
+        },
+       
+
+       "mykeypair": {
+           "Description": "Keypair for EC2 Instance",
+           "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+
+        "myaz": {
+            "Description": "AZ for EC2 Instance",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }
+        
+        
+    },
+    "Mappings":{
+        
+        "RegionMap": {"us-east-1": {"AMI": "ami-011b3ccf1bd6db744"},
+                      "us-east-2": {"AMI": "ami-03291866"},
+                      "us-west-1": {"AMI": "ami-18726478"},
+                      "us-west-2": {"AMI": "ami-28e07e50"},
+                      "ap-south-1": {"AMI": " ami-5b673c34"},
+                      "ap-northeast-2": {"AMI": "ami-3eee4150"},
+                      "ap-southeast-1": {"AMI": "ami-76144b0a"},
+                      "ap-southeast-2": {"AMI": "ami-67589505"},
+                      "ap-northeast-1": {"AMI": "ami-08419d23bf91152e4"},
+                      "ca-central-1": {"AMI": "ami-49f0762d"},
+                      "eu-central-1": {"AMI": "ami-c86c3f23"},
+                      "eu-west-1": {"AMI": "ami-7c491f05"},
+                      "eu-west-2": {"AMI": "ami-7c1bfd1b"},
+                      "eu-west-3": {"AMI": "ami-5026902d"},
+                      "sa-east-1": {"AMI": "ami-b0b7e3dc"}
+                     }
+                     
+     },
+   "Resources" :{
+
+
+
+    "mysecuritygroup" : {
+        "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" : {
+            "GroupDescription" : "to allow ssh and http",
+            "GroupName" : "Allow SSH and HTTP",
+            "SecurityGroupIngress" : [ 
+                {
+                    "IpProtocol" : "tcp",
+                    "FromPort" : 22,
+                    "ToPort" : 22,
+                    "CidrIp" : "0.0.0.0/0"
+                 },
+                 {
+                    "IpProtocol" : "tcp",
+                    "FromPort" : 80,
+                    "ToPort" : 80,
+                    "CidrIp" : "0.0.0.0/0"
+                 }
+            ]
+          
+          
+          
+        }
+      },
+
+        
+        "myec2instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": { "Ref": "mykeypair" },
+                "ImageId":{ "Fn::FindInMap": ["RegionMap",{ "Ref": "AWS::Region" },"AMI"]},
+                "InstanceType": { "Ref": "myinstancetype" },
+                "AvailabilityZone" : { "Ref": "myaz" },
+                "SecurityGroupIds" : [{ "Ref": "mysecuritygroup" }]
+                
+                
+            }
+        }
+
+   },
+   "Outputs":{
+
+    "InstanceId" : {
+        "Description" : "InstanceId of EC2 instance",
+        "Value" : { "Ref" : "myec2instance" }
+      },
+      "AZ" : {
+        "Description" : "Availability Zone of EC2 instance",
+        "Value" : { "Fn::GetAtt" : [ "myec2instance", "AvailabilityZone" ] }
+      },
+      "SG" : {
+        "Description" : "Security Group of EC2 instance",
+        "Value" : { "Ref": "mysecuritygroup" }
+      },
+      "PublicIP" : {
+        "Description" : "Public IP address of EC2 instance",
+        "Value" : { "Fn::GetAtt" : [ "myec2instance", "PublicIp" ] }
+      },
+      "PrivateIP" : {
+        "Description" : "Private IP address of EC2 instance",
+        "Value" : { "Fn::GetAtt" : [ "myec2instance", "PrivateIp" ] }
+      },
+      "PublicDNS" : {
+        "Description" : "Public DNSName of EC2 instance",
+        "Value" : { "Fn::GetAtt" : [ "myec2instance", "PublicDnsName" ] }
+      },
+      "PrivateDNS" : {
+        "Description" : "Private DNSName of EC2 instance",
+        "Value" : { "Fn::GetAtt" : [ "myec2instance", "PrivateDnsName" ] }
+      }
+   }
+
+
+
+}

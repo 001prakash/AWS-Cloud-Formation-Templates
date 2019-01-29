@@ -1,0 +1,69 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description":"IAM User",
+    "Parameters":{
+        "Password": {
+            "Description": "New Account Password",
+            "Type": "String",
+            "MinLength": "4",
+            "MaxLength": "10"
+        }
+    },
+
+    "Resources":{
+
+        "NewUser": {
+           "Type": "AWS::IAM::User",
+           "Properties": {
+            "LoginProfile": {
+               "Password": { "Ref": "Password" }
+            }    
+           }
+        },
+
+        "NewGroup": {
+           "Type": "AWS::IAM::Group"  
+        },
+        
+        "UserToGroupAddition": {
+           "Type": "AWS::IAM::UserToGroupAddition",
+           "Properties": {
+              "GroupName": 
+              { "Ref": "NewGroup" },
+              
+              "Users": [ 
+              { "Ref": "NewUser" }
+               ]
+           }
+        },
+
+        "NewKeys": {
+           "Type": "AWS::IAM::AccessKey",
+           "Properties": {
+              
+              "UserName": { "Ref": "NewUser" }
+              
+              
+           }
+        }
+    },
+
+    "Outputs":{
+
+        
+        "AccessKey" : {
+          "Value" : 
+          { "Ref": "NewKeys" }
+          
+        },
+
+        
+        "SecretKey" : {
+          "Value" : 
+          { "Fn::GetAtt" : [ "NewKeys", "SecretAccessKey" ]}
+          
+        }
+
+    }
+       
+}
