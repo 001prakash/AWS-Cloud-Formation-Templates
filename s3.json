@@ -1,0 +1,42 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters":{ 
+        
+        "mybucket": {
+            "Description": "give any name to the bucket",
+            "Type": "String",
+            "Default": "lokeshcraig",
+            "MinLength": "8",
+            "MaxLength": "16"
+        }
+        
+
+
+    },
+    
+    "Resources":{
+
+        
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "AccessControl": "PublicReadWrite",
+                "BucketName": { "Ref": "mybucket" }
+                
+                
+            }      
+        }
+
+
+
+    },
+    "Outputs":{
+
+        
+        "bucketname" : {
+          "Value" : {"Ref": "mybucket"}
+        }
+        
+    }
+}
+
